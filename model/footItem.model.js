@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 
 const FoodItem = new mongoose.Schema(
   {
-    name: { type: String, required: true },
+    title: { type: String, required: true },
+    description: { type: String, required: false },
+    rating: { type: Number, required: false },
+    price: { type: Number, required: true },
+    ratingCount: { type: Number, required: false },
   },
   { collection: "foodItems" }
 );
