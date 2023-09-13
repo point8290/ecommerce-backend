@@ -14,10 +14,7 @@ class Middleware {
         return next();
       }
 
-      return res.json({
-        message: "Not Authorized",
-        statusCode: 404,
-      });
+      return res.sendStatus(401);
     } catch (error) {
       return res.json({
         message: "Internal Server Error",

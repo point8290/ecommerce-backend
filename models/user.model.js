@@ -2,13 +2,56 @@ const mongoose = require("mongoose");
 
 const User = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    phone: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    name: { type: String },
+
+    firebaseId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+      sparse: true,
+      validate: {
+        validator: function (value) {
+          return /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(value);
+        },
+        message: "Invalid email address",
+      },
+    },
+    phone: {
+      type: String,
+      unique: true,
+      sparse: true,
+      validate: {
+        validator: function (value) {
+          return /^\d{10}$/.test(value);
+        },
+        message: "Invalid phone number",
+      },
+    },
+    isPhoneVerified: {
+      type: Boolean,
+      default: false,
+    },
+
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
+
   { collection: "users" }
 );
+
+User.path("email").validate(function (value) {
+  return this.email || this.phone;
+}, "Either email or phone is required");
 
 const model = mongoose.model("User", User);
 module.exports = model;
