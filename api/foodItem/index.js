@@ -6,11 +6,15 @@ const router = express.Router();
 router.get("/products", async (req, res) => {
   try {
     const products = await footItem.find({});
-    res.json({ status: "ok", products });
+    res.json({
+      status: "ok",
+      products,
+    });
   } catch (error) {
+    console.log("error", error);
     res.json({
       status: "error",
-      error: err,
+      error: error,
     });
   }
 });
