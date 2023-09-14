@@ -33,6 +33,6 @@ app.use("/api/user", userRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/food-item", foodItemRoutes);
 
-app.listen(4444, () => {
-  console.log("server started on port", 4444);
+app.listen(8000, () => {
+  console.log("server started on port", 8000);
 });

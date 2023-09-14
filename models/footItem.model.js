@@ -35,10 +35,7 @@ const FoodItem = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    isVegan: {
-      type: Boolean,
-      default: false,
-    },
+
     isGlutenFree: {
       type: Boolean,
       default: false,
