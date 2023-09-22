@@ -3,7 +3,7 @@ const footItem = require("../../models/footItem.model");
 
 const router = express.Router();
 
-router.get("/products", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const products = await footItem.find({});
     res.json({
@@ -19,17 +19,30 @@ router.get("/products", async (req, res) => {
   }
 });
 
-router.get("/product/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const product = await footItem.find({ id: id });
-    res.json({ status: "ok", product: product[0] });
+    const products = await footItem.find({ category: id });
+    res.json({ status: "ok", products: products });
   } catch (error) {
     res.json({
       status: "error",
       error: err,
     });
   }
+
+  router.get("/product/:id", async (req, res) => {
+    try {
+      const id = req.params.id;
+      const product = await footItem.findById(id);
+      res.json({ status: "ok", product: product });
+    } catch (error) {
+      res.json({
+        status: "error",
+        error: err,
+      });
+    }
+  });
 });
 
 module.exports = router;
