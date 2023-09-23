@@ -5,6 +5,7 @@ const cors = require("cors");
 const userRoutes = require("./api/user");
 const categoryRoutes = require("./api/category");
 const foodItemRoutes = require("./api/foodItem");
+const paymentRoutes = require("./api/payment");
 const orderRoutes = require("./api/order");
 require("dotenv").config();
 
@@ -34,6 +35,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/food-item", foodItemRoutes);
 app.use("/api/order", orderRoutes);
+app.use("/api/payment", paymentRoutes);
 
 app.listen(8000, () => {
   console.log("server started on port", 8000);
