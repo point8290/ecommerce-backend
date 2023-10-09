@@ -4,9 +4,10 @@ const Order = require("../../models/order.model");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-  const order = new Order(req.body);
+  const order = req.body;
+  console.log(order);
   try {
-    const newOrder = await order.save();
+    const newOrder = await Order.create(order);
     res.status(200).json(newOrder);
   } catch (error) {
     console.log("error", error);

@@ -24,12 +24,6 @@ const User = new mongoose.Schema(
       type: String,
       unique: true,
       sparse: true,
-      validate: {
-        validator: function (value) {
-          return /^\d{10}$/.test(value);
-        },
-        message: "Invalid phone number",
-      },
     },
     isPhoneVerified: {
       type: Boolean,

@@ -55,15 +55,37 @@ router.post("/google", async (req, res) => {
     const dbUser = await User.findOne({ firebaseId: firebaseUser.uid });
     if (!dbUser) {
       const user = {};
+
       if (firebaseUser.email) user.email = firebaseUser.email;
       if (firebaseUser.uid) user.firebaseId = firebaseUser.uid;
       if (firebaseUser.phone) user.phone = firebaseUser.phone;
       if (firebaseUser.name) user.name = firebaseUser.name;
-      User.create(user);
+      dbUser = await User.create(user);
     }
 
-    return res.status(200).json({ message: "Signed In." });
+    return res.status(200).json({ message: "Signed In.", user: dbUser });
   } catch (err) {
+    return res.status(500).json({ error: "Server error. Please try again" });
+  }
+});
+router.post("/phone", async (req, res) => {
+  const { firebaseUser } = req.body;
+  console.log("firebaseUser", firebaseUser);
+  try {
+    let dbUser = await User.findOne({ firebaseId: firebaseUser.uid });
+    if (!dbUser) {
+      const user = {};
+
+      if (firebaseUser.email) user.email = firebaseUser.email;
+      if (firebaseUser.uid) user.firebaseId = firebaseUser.uid;
+      if (firebaseUser.phone) user.phone = firebaseUser.phone;
+      if (firebaseUser.name) user.name = firebaseUser.name;
+      dbUser = await User.create(user);
+    }
+
+    return res.status(200).json({ message: "Signed In.", user: dbUser });
+  } catch (err) {
+    console.log("err", err);
     return res.status(500).json({ error: "Server error. Please try again" });
   }
 });
@@ -73,7 +95,6 @@ router.post("/login", async (req, res) => {
     const { idToken } = req.body;
     verifyIdToken(idToken)
       .then(async (decodedToken) => {
-        console.log("token", decodedToken.uid);
         const user = await User.find({ firebaseId: decodedToken.uid });
 
         if (!user || user.length == 0) {
