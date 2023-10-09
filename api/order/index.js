@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   const order = req.body;
-  console.log(order);
   try {
     const newOrder = await Order.create(order);
     res.status(200).json(newOrder);
